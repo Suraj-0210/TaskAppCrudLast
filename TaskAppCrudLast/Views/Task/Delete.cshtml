@@ -1,0 +1,31 @@
+﻿@model TaskAppCrudLast.Models.MyTask
+
+@{
+    ViewData["Title"] = "Delete Task";
+}
+
+<div class="container mt-4">
+    <h2>Delete Task</h2>
+    <hr />
+    <h4>Are you sure you want to delete this task?</h4>
+
+    <dl class="row">
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">@Model.Title</dd>
+
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+
+        <dt class="col-sm-3">User</dt>
+        <dd class="col-sm-9">@Model.AssignedUser?.FullName</dd>
+
+        <dt class="col-sm-3">Category</dt>
+        <dd class="col-sm-9">@Model.Category?.Name</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

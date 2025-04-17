@@ -48,21 +48,20 @@ namespace TaskAppCrudLast.Controllers
         {
             var task = _taskService.GetById(id);
             if (task == null) return NotFound();
+            ViewBag.Users = _userService.GetAllUsers().ToList(); 
+            ViewBag.Categories = _categoryService.GetAllCategories().ToList();
 
             return View(task);
         }
 
         // POST: Task/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Edit(MyTask task)
         {
-            if (ModelState.IsValid)
-            {
+           
                 _taskService.Update(task);
                 return RedirectToAction(nameof(Index));
-            }
-            return View(task);
+            
         }
 
         // GET: Task/Delete/5
@@ -70,13 +69,18 @@ namespace TaskAppCrudLast.Controllers
         {
             var task = _taskService.GetById(id);
             if (task == null) return NotFound();
+            Console.WriteLine("assigned User is : "+task.UserId);
+            Console.WriteLine("assigned category is : "+task.CategoryId);
+            User user = _userService.GetUserById(task.UserId);
+            Category category = _categoryService.GetCategoryById(task.CategoryId);
+            task.Category = category;
+            task.AssignedUser = user;
 
             return View(task);
         }
 
         // POST: Task/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             _taskService.Delete(id);
